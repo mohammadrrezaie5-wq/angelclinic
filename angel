@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رزرو نوبت کلینیک آنجل</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --pink-soft: #FFCFDD;
+            --purple-glow: #D988E8;
+            --rose-intense: #FF004B;
+            --white: #FFFFFF;
+            --dark: #2D1F2E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, var(--pink-soft) 0%, #FFE4EC 50%, var(--purple-glow) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--dark);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 0, 75, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+            33% { transform: translateY(-30px) translateX(20px) scale(1.1); }
+            66% { transform: translateY(20px) translateX(-20px) scale(0.9); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(255, 0, 75, 0.25);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.5s ease;
+            aspect-ratio: 16/9;
+        }
+
+        .hero-image-container:hover {
+            transform: perspective(1000px) rotateY(0deg) scale(1.02);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(255, 0, 75, 0.3), transparent);
+        }
+
+        .main-title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--rose-intense), var(--purple-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 12px rgba(255, 0, 75, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--dark);
+            opacity: 0.8;
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(217, 136, 232, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 75, 0.05) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .form-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 700;
+            color: var(--rose-intense);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            transform-origin: right;
+            transition: all 0.3s ease;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid var(--pink-soft);
+            border-radius: 15px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--purple-glow);
+            box-shadow: 0 0 0 4px rgba(217, 136, 232, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FF004B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 1rem center;
+            background-size: 1.2rem;
+        }
+
+        .service-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .service-option {
+            position: relative;
+        }
+
+        .service-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .service-label {
+            display: block;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--pink-soft), #FFE4EC);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--dark);
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .service-option input:checked + .service-label {
+            background: linear-gradient(135deg, var(--rose-intense), var(--purple-glow));
+            color: white;
+            border-color: var(--rose-intense);
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 0, 75, 0.3);
+        }
+
+        .service-option:hover .service-label {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(217, 136, 232, 0.3);
+        }
+
+        .date-picker-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .date-picker-select {
+            padding: 0.8rem;
+            border: 2px solid var(--pink-soft);
+            border-radius: 12px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .date-picker-select:focus {
+            border-color: var(--purple-glow);
+            box-shadow: 0 0 0 3px rgba(217, 136, 232, 0.2);
+            outline: none;
+        }
+
+        .time-picker-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--rose-intense), var(--purple-glow));
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 0, 75, 0.4);
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 0, 75, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 700;
+            animation: slideIn 0.5s ease;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery-section {
+            margin-top: 5rem;
+            padding: 3rem 0;
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--rose-intense);
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .gallery-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--pink-soft), var(--purple-glow), var(--rose-intense));
+            border-radius: 2px;
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .gallery-item {
+            width: 100%;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item:nth-child(even) {
+            transform: translateX(100px);
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover {
+            box-shadow: 0 30px 60px rgba(255, 0, 75, 0.2);
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.02);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(255, 0, 75, 0.9), transparent);
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .contact-section {
+            margin-top: 5rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 3rem 2rem;
+            box-shadow: 0 20px 60px rgba(217, 136, 232, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .contact-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--rose-intense);
+            margin-bottom: 2rem;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--pink-soft), rgba(255, 255, 255, 0.8));
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
+            border: 2px solid transparent;
+        }
+
+        .contact-item:hover {
+            border-color: var(--purple-glow);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(217, 136, 232, 0.3);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--rose-intense), var(--purple-glow));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .contact-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--rose-intense);
+            margin-bottom: 0.3rem;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .contact-info p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            color: var(--rose-intense);
+            opacity: 0.3;
+            animation: float-up 15s infinite ease-in;
+            font-size: 20px;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .service-options {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-title {
+                font-size: 1.6rem;
+            }
+
+            .date-picker-container {
+                grid-template-columns: 1fr;
+            }
+
+            .time-picker-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="particles" id="particles"></div>
+    <div class="hearts-container" id="hearts"></div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-image-container">
+                <img src="https://s8.uupload.ir/files/۲۰۲۶۰۲۱۹_۰۱۴۲۰۹_yxe.jpg" alt="کلینیک آنجل" class="hero-image" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&auto=format&fit=crop'">
+                <div class="hero-overlay"></div>
+            </div>
+            <h1 class="main-title">کلینیک پوست و زیبایی آنجل</h1>
+            <p class="subtitle">رزرو نوبت خدمات تخصصی زیبایی و مراقبت از پوست</p>
+        </section>
+
+        <!-- Form Section with Formspree -->
+        <div class="form-container">
+            <div class="form-content">
+                <!-- ========================================== -->
+                <!-- FORM CONNECTED TO FORMSPREE -->
+                <!-- Email: mohammadrrezaie5@gmail.com -->
+                <!-- ========================================== -->
+                <form id="bookingForm" action="https://formspree.io/f/mbdazjeo" method="POST">
+                    
+                    <!-- Email subject -->
+                    <input type="hidden" name="_subject" value="درخواست رزرو نوبت جدید - کلینیک آنجل">
+                    
+                    <!-- Redirect after submit -->
+                    <input type="hidden" name="_next" value="https://your-website.com/thanks.html">
+                    
+                    <div class="form-group">
+                        <label class="form-label">نام و نام خانوادگی</label>
+                        <input type="text" class="form-input" name="fullname" required placeholder="نام کامل خود را وارد کنید">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">سن</label>
+                        <input type="number" class="form-input" name="age" required placeholder="سن خود را وارد کنید" min="10" max="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">انتخاب خدمات</label>
+                        <select class="form-select" name="service" required>
+                            <option value="">لطفاً خدمت مورد نظر را انتخاب کنید</option>
+                            <option value="facial">فشیال صورت</option>
+                            <option value="scalp">اسکالپ موی سر</option>
+                            <option value="pedicure">پدیکور</option>
+                            <option value="manicure">مانیکور و ناخن</option>
+                            <option value="massage">ماساژ بانوان</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">نوع پوست</label>
+                        <select class="form-select" name="skinType" required>
+                            <option value="">نوع پوست خود را انتخاب کنید</option>
+                            <option value="dry">پوست خشک و کم آب</option>
+                            <option value="oily">پوست چرب و جوش دار</option>
+                            <option value="sensitive">پوست حساس</option>
+                            <option value="combination">پوست مختلط</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">توضیح مشکل یا هدف از خدمات</label>
+                        <textarea class="form-textarea" name="description" placeholder="لطفاً مشکل پوستی یا هدف خود از دریافت خدمات را به صورت کامل توضیح دهید..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">انتخاب نوع خدمات</label>
+                        <div class="service-options">
+                            <div class="service-option">
+                                <input type="radio" name="serviceType" id="economic" value="economic" required>
+                                <label for="economic" class="service-label">اقتصادی</label>
+                            </div>
+                            <div class="service-option">
+                                <input type="radio" name="serviceType" id="vip" value="vip">
+                                <label for="vip" class="service-label">VIP</label>
+                            </div>
+                            <div class="service-option">
+                                <input type="radio" name="serviceType" id="therapist" value="therapist">
+                                <label for="therapist" class="service-label">به انتخاب اسکین تراپیست</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">شماره تماس</label>
+                        <input type="tel" class="form-input" name="phone" required placeholder="۰۹۱۲۳۴۵۶۷۸۹" pattern="[0-9]*">
+                    </div>
+
+                    <!-- Persian Date and Time Picker -->
+                    <div class="form-group">
+                        <label class="form-label">تاریخ و زمان مورد نظر (شمسی)</label>
+                        <div class="date-picker-container">
+                            <select class="date-picker-select" id="persianYear" name="persianYear" required>
+                                <option value="">سال</option>
+                            </select>
+                            <select class="date-picker-select" id="persianMonth" name="persianMonth" required>
+                                <option value="">ماه</option>
+                                <option value="1">فروردین</option>
+                                <option value="2">اردیبهشت</option>
+                                <option value="3">خرداد</option>
+                                <option value="4">تیر</option>
+                                <option value="5">مرداد</option>
+                                <option value="6">شهریور</option>
+                                <option value="7">مهر</option>
+                                <option value="8">آبان</option>
+                                <option value="9">آذر</option>
+                                <option value="10">دی</option>
+                                <option value="11">بهمن</option>
+                                <option value="12">اسفند</option>
+                            </select>
+                            <select class="date-picker-select" id="persianDay" name="persianDay" required>
+                                <option value="">روز</option>
+                            </select>
+                        </div>
+                        <div class="time-picker-container" style="margin-top: 0.5rem;">
+                            <select class="date-picker-select" id="timeHour" name="timeHour" required>
+                                <option value="">ساعت</option>
+                            </select>
+                            <select class="date-picker-select" id="timeMinute" name="timeMinute" required>
+                                <option value="">دقیقه</option>
+                                <option value="00">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </div>
+                        <!-- Hidden field for combined date/time -->
+                        <input type="hidden" name="preferredTime" id="fullDateTime">
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span id="btnText">ارسال درخواست رزرو</span>
+                    </button>
+
+                    <div id="successMessage" class="success-message">
+                        ✨ با تشکر از اعتماد شما! درخواست رزرو شما با موفقیت ثبت شد. طی ساعت آینده با شما تماس گرفته خواهد شد و زمان دقیق نوبت اعلام می‌گردد. 🌸
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Gallery Section -->
+        <section class="gallery-section">
+            <h2 class="gallery-title">خدمات تخصصی کلینیک آنجل</h2>
+            <div class="gallery-container" id="gallery">
+                <div class="gallery-item">
+                    <img src="https://s8.uupload.ir/files/۲۰۲۶۰۲۱۸_۲۱۰۳۵۲_q0w0.jpg" alt="خدمات زیبایی" class="gallery-image" onerror="this.src='https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1200&auto=format&fit=crop'">
+                    <div class="gallery-caption">مراقبت‌های تخصصی پوست</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://s8.uupload.ir/files/۲۰۲۶۰۲۱۸_۲۱۱۱۲۲_vcqk.jpg" alt="خدمات ناخن" class="gallery-image" onerror="this.src='https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&auto=format&fit=crop'">
+                    <div class="gallery-caption">طراحی و مراقبت ناخن</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://s8.uupload.ir/files/۲۰۲۶۰۲۱۸_۲۱۱۴۱۴_1j7f.jpg" alt="ماساژ" class="gallery-image" onerror="this.src='https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1200&auto=format&fit=crop'">
+                    <div class="gallery-caption">ماساژ درمانی و آرامش</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://s8.uupload.ir/files/۲۰۲۶۰۲۱۸_۲۱۲۱۴۱_vv9v.jpg" alt="فشیال" class="gallery-image" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=1200&auto=format&fit=crop'">
+                    <div class="gallery-caption">فشیال صورت و جوانسازی</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://s8.uupload.ir/files/۲۰۲۶۰۲۱۸_۲۲۲۸۰۲_cq1c.jpg" alt="اسکالپ" class="gallery-image" onerror="this.src='https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1200&auto=format&fit=crop'">
+                    <div class="gallery-caption">اسکالپ و درمان مو</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <h2 class="contact-title">راه‌های ارتباطی با ما</h2>
+            <div class="contact-grid">
+                <a href="https://www.instagram.com/hesami.angel.clinic?igsh=MWZ3Y3Exa3FvcnpqdA==" target="_blank" class="contact-item">
+                    <div class="contact-icon">📷</div>
+                    <div class="contact-info">
+                        <h3>اینستاگرام</h3>
+                        <p>@Hesami.Angel.Clinic</p>
+                    </div>
+                </a>
+                
+                <a href="https://balad.ir/p/4SKyMqqNsOqTeU" target="_blank" class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-info">
+                        <h3>آدرس کلینیک</h3>
+                        <p>ارومیه، خیابان والفجر، ساختمان رایان، طبقه آخر</p>
+                    </div>
+                </a>
+                
+                <a href="tel:09016576902" class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-info">
+                        <h3>تماس تلفنی</h3>
+                        <p>۰۹۰۱۶۵۷۶۹۰۲</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <footer style="text-align: center; margin-top: 3rem; padding: 2rem; color: var(--dark); opacity: 0.6; font-size: 0.9rem; font-family: 'Vazirmatn', sans-serif;">
+            <p>© ۱۴۰۴ کلینیک پوست و زیبایی آنجل - تمامی حقوق محفوظ است</p>
+        </footer>
+    </div>
+
+    <script>
+        // Persian Date Picker Initialization
+        function initPersianDatePicker() {
+            const yearSelect = document.getElementById('persianYear');
+            const monthSelect = document.getElementById('persianMonth');
+            const daySelect = document.getElementById('persianDay');
+            const hourSelect = document.getElementById('timeHour');
+            
+            // Populate years (1404-1405 only)
+            for (let year = 1404; year <= 1405; year++) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+            
+            // Populate hours (8-20)
+            for (let hour = 8; hour <= 20; hour++) {
+                const option = document.createElement('option');
+                option.value = hour.toString().padStart(2, '0');
+                option.textContent = hour.toString().padStart(2, '0');
+                hourSelect.appendChild(option);
+            }
+            
+            // Update days based on month selection
+            function updateDays() {
+                const month = parseInt(monthSelect.value);
+                let daysInMonth;
+                
+                if (month <= 6) {
+                    daysInMonth = 31;
+                } else if (month <= 11) {
+                    daysInMonth = 30;
+                } else {
+                    daysInMonth = 29; // Esfand
+                }
+                
+                daySelect.innerHTML = '<option value="">روز</option>';
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const option = document.createElement('option');
+                    option.value = day;
+                    option.textContent = day;
+                    daySelect.appendChild(option);
+                }
+            }
+            
+            monthSelect.addEventListener('change', updateDays);
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 100 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Create floating hearts
+        function createHearts() {
+            const container = document.getElementById('hearts');
+            const hearts = ['💖', '💕', '💗', '💓', '💝'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (10 + Math.random() * 10) + 's';
+                heart.style.fontSize = (15 + Math.random() * 20) + 'px';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 20000);
+            }, 3000);
+        }
+
+        // Form submission with Formspree
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            // Combine Persian date and time before submit
+            const year = document.getElementById('persianYear').value;
+            const month = document.getElementById('persianMonth').value;
+            const day = document.getElementById('persianDay').value;
+            const hour = document.getElementById('timeHour').value;
+            const minute = document.getElementById('timeMinute').value;
+            
+            if (year && month && day && hour && minute) {
+                const persianDateTime = `${year}/${month.padStart(2, '0')}/${day.padStart(2, '0')} - ${hour}:${minute}`;
+                document.getElementById('fullDateTime').value = persianDateTime;
+            }
+            
+            // Form will submit normally to Formspree
+            // Show success message after short delay
+            setTimeout(() => {
+                const successMsg = document.getElementById('successMessage');
+                successMsg.style.display = 'block';
+                successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // Hide after 10 seconds
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 10000);
+            }, 500);
+        });
+
+        // Intersection Observer for gallery animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all gallery items
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Animate form elements on load
+        gsap.from('.form-group', {
+            opacity: 0,
+            y: 30,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: 'power2.out',
+            delay: 0.3
+        });
+
+        // Animate hero section
+        gsap.from('.hero-image-container', {
+            opacity: 0,
+            scale: 0.8,
+            rotationY: -30,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.main-title', {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            delay: 0.5,
+            ease: 'power2.out'
+        });
+
+        // Input focus effects
+        const inputs = document.querySelectorAll('.form-input, .form-select, .form-textarea, .date-picker-select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                gsap.to(this, {
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            input.addEventListener('blur', function() {
+                gsap.to(this, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Initialize
+        initPersianDatePicker();
+        createParticles();
+        createHearts();
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add parallax effect to hero image on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const heroImage = document.querySelector('.hero-image-container');
+            if (heroImage) {
+                const rect = heroImage.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) / 30;
+                const y = (e.clientY - rect.top - rect.height / 2) / 30;
+                
+                gsap.to(heroImage, {
+                    rotationY: x,
+                    rotationX: -y,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
